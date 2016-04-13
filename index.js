@@ -18,43 +18,30 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
 function send(sender, message) {
-	
-	return new Promise(function(resolve,reject){
-		request({
-			url: 'https://graph.facebook.com/v2.6/me/messages',
-			qs: { 
-				access_token: page_token
+	console.log(chalk.red(JSON.stringify(message)));
+	request({
+		url: 'https://graph.facebook.com/v2.6/me/messages',
+		qs: { 
+			access_token: page_token
+		},
+		method: 'POST',
+		json: {
+			recipient: {
+				id:sender
 			},
-			method: 'POST',
-			json: {
-				recipient: {
-					id:sender
-				},
-				message: message,
-			}
-		}, function(error, response, body) {
-			if (error) {
-				resolve(false);
-			} else if (response.body.error) {
-				resolve(false);
-			}
-		});
-	
-		resolve(true);
-		
+			message: message,
+		}
+	}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending message: ', error);
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error);
+		}
 	});
-
 }; 
 
 function sendMessage(sender, messageData) {
-	for (var i; i < messageData; i++) {
-		send(sender, messageData[i])
-			.then(function(status){
-				console.log(status);
-			}).catch(function() {
-				
-			});
-	}
+	send(sender, messageData);
 };
 
 app.get('/', function(req, res) {
@@ -75,27 +62,21 @@ app.get('/webhook', function (req, res) {
 
 app.post('/webhook/', function (req, res) {
   messaging_events = req.body.entry[0].messaging;
+  console.log(JSON.stringify(req.body.entry));
   for (i = 0; i < messaging_events.length; i++) {
     event = req.body.entry[0].messaging[i];
     sender = event.sender.id;
     if (event.message && event.message.text) {
       text = event.message.text;
       // Handle a text message from this sender
+	  
     }
 	
 	if (event.postback) {
 		var postback_text = event.postback.payload;
 		if (postback_text == "USER_REQUEST_SHIPPING_PRICE") {
 			var messages = {
-				message_one: {
-					text: "Am on it..."
-				},
-				message_two: {
-					text: "But i'll need some info"
-				},
-				message_three: {
-					text: "What state are you shipping from?"
-				}
+				text: "Am on it...What state are you shipping from?"
 			};
 			sendMessage(sender, messages, page_token);
 			continue;
