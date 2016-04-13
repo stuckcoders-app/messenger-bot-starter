@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "node index.js" 
+    "start": "node index.js"
   },
   "keywords": [
     "kos",
@@ -14,7 +14,9 @@
   "author": "Oforomeh Oshomo <oshomo.oforomeh2010@gmail.com> (http://hoshomoh.github.io/)",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.13.4"
+    "consolidate": "^0.14.0",
+    "express": "^4.13.4",
+    "swig": "^1.4.2"
   },
   "engines": {
     "node": "4.3.1"

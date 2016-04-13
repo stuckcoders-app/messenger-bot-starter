@@ -1,10 +1,14 @@
 var express = require('express');
 var app = express();
+var cons = require("consolidate");
 
 var port = process.env.PORT || 3000;
 var access_token = process.env.ACCESS_TOKEN;
 
 app.use(express.static(__dirname + '/public'));
+app.engine('html', cons.swig);
+app.set('view engine', 'html');
+app.set('views', __dirname + '/views');
 
 app.get('/', function(req, res) {
      res.send('Hello World!');
