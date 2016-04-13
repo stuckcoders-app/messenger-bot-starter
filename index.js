@@ -18,7 +18,7 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
 function send(sender, message) {
-	console.log(chalk.red(message));
+	console.log(chalk.red(JSON.stringify(message)));
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: { 
