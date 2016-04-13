@@ -18,31 +18,42 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
 function send(sender, message) {
-	console.log(chalk.red(JSON.stringify(message)));
-	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
-		qs: { 
-			access_token: page_token
-		},
-		method: 'POST',
-		json: {
-			recipient: {
-				id:sender
+	
+	return new Promise(function(resolve,reject){
+		request({
+			url: 'https://graph.facebook.com/v2.6/me/messages',
+			qs: { 
+				access_token: page_token
 			},
-			message: message,
-		}
-	}, function(error, response, body) {
-		if (error) {
-			console.log('Error sending message: ', error);
-		} else if (response.body.error) {
-			console.log('Error: ', response.body.error);
-		}
+			method: 'POST',
+			json: {
+				recipient: {
+					id:sender
+				},
+				message: message,
+			}
+		}, function(error, response, body) {
+			if (error) {
+				resolve(false);
+			} else if (response.body.error) {
+				resolve(false);
+			}
+		});
+	
+		resolve(true);
+		
 	});
+
 }; 
 
 function sendMessage(sender, messageData) {
-	for (var i in messageData) {
-		send(sender, messageData[i]);
+	for (var i; i < messageData; i++) {
+		send(sender, messageData[i])
+			.then(function(status){
+				continue
+			}).catch(function() {
+				
+			});
 	}
 };
 
