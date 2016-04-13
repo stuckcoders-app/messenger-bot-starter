@@ -50,7 +50,7 @@ function sendMessage(sender, messageData) {
 	for (var i; i < messageData; i++) {
 		send(sender, messageData[i])
 			.then(function(status){
-				
+				console.log(status);
 			}).catch(function() {
 				
 			});
