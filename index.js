@@ -16,10 +16,7 @@ app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
-function sendTextMessage(sender, text) {
-	messageData = {
-		text:text
-	}
+function send(message) {
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: { 
@@ -28,7 +25,7 @@ function sendTextMessage(sender, text) {
 		method: 'POST',
 		json: {
 			recipient: {id:sender},
-			message: messageData,
+			message: message,
 		}
 	}, function(error, response, body) {
 		if (error) {
@@ -37,6 +34,12 @@ function sendTextMessage(sender, text) {
 			console.log('Error: ', response.body.error);
 		}
 	});
+}; 
+
+function sendMessage(sender, messageData) {
+	for (var i in messageData) {
+		send(messageData[i]);
+	}
 };
 
 app.get('/', function(req, res) {
@@ -67,8 +70,21 @@ app.post('/webhook/', function (req, res) {
 	
 	if (event.postback) {
 		text = event.postback.payload;
-		sendTextMessage(sender, "Postback received: " + text, page_token);
-		continue;
+		if (text == "USER_REQUEST_SHIPPING_PRICE") {
+			var messages = {
+				"message_one": {
+					text: "Am on it..."
+				},
+				"message_two": {
+					text: "But i'll need some info"
+				},
+				"message_three": {
+					text: "What state are you shipping from?"
+				}
+			};
+			sendMessage(sender, "Postback received: " + message, page_token);
+			continue;
+		}
 	}
   }
   res.sendStatus(200);
