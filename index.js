@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var cons = require("consolidate");
 var bodyParser = require("body-parser");
+var request = require('request');
 
 var port = process.env.PORT || 3000;
 var access_token = process.env.ACCESS_TOKEN;
@@ -13,6 +14,29 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
+
+function sendTextMessage(sender, text) {
+	messageData = {
+		text:text
+	}
+	request({
+		url: 'https://graph.facebook.com/v2.6/me/messages',
+		qs: { 
+			access_token: access_token
+		},
+		method: 'POST',
+		json: {
+			recipient: {id:sender},
+			message: messageData,
+		}
+	}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending message: ', error);
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error);
+		}
+	});
+};
 
 app.get('/', function(req, res) {
      res.send('Hello World!');
