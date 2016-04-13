@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var cons = require("consolidate");
-var bodyParser = require("consolidate");
+var bodyParser = require("body-parser");
 
 var port = process.env.PORT || 3000;
 var access_token = process.env.ACCESS_TOKEN;
