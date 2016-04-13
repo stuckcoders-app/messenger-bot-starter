@@ -73,20 +73,20 @@ app.post('/webhook/', function (req, res) {
     }
 	
 	if (event.postback) {
-		text = event.postback.payload;
-		if (text == "USER_REQUEST_SHIPPING_PRICE") {
+		var postback_text = event.postback.payload;
+		if (postback_text == "USER_REQUEST_SHIPPING_PRICE") {
 			var messages = {
-				"message_one": {
+				message_one: {
 					text: "Am on it..."
 				},
-				"message_two": {
+				message_two: {
 					text: "But i'll need some info"
 				},
-				"message_three": {
+				message_three: {
 					text: "What state are you shipping from?"
 				}
 			};
-			sendMessage(sender, "Postback received: " + messages, page_token);
+			sendMessage(sender, messages, page_token);
 			continue;
 		}
 	}
