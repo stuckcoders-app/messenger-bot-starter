@@ -6,6 +6,7 @@ var request = require('request');
 
 var port = process.env.PORT || 3000;
 var access_token = process.env.ACCESS_TOKEN;
+var page_token = process.env.PAGE_TOKEN;
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
@@ -22,7 +23,7 @@ function sendTextMessage(sender, text) {
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: { 
-			access_token: access_token
+			access_token: page_token
 		},
 		method: 'POST',
 		json: {
@@ -66,7 +67,7 @@ app.post('/webhook/', function (req, res) {
 	
 	if (event.postback) {
 		text = JSON.stringify(event.postback);
-		sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token);
+		sendTextMessage(sender, "Postback received: "+text.substring(0, 200), page_token);
 		continue;
 	}
   }
