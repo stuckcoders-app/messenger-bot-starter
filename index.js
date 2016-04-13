@@ -82,7 +82,7 @@ app.post('/webhook/', function (req, res) {
 					text: "What state are you shipping from?"
 				}
 			};
-			sendMessage(sender, "Postback received: " + message, page_token);
+			sendMessage(sender, "Postback received: " + messages, page_token);
 			continue;
 		}
 	}
