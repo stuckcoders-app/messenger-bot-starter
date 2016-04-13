@@ -18,7 +18,6 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
 function send(sender, message) {
-	console.log(chalk.red(JSON.stringify(message)));
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: { 
@@ -62,7 +61,7 @@ app.get('/webhook', function (req, res) {
 
 app.post('/webhook/', function (req, res) {
   messaging_events = req.body.entry[0].messaging;
-  console.log(JSON.stringify(req.body.entry));
+  console.log(req.body.entry);
   for (i = 0; i < messaging_events.length; i++) {
     event = req.body.entry[0].messaging[i];
     sender = event.sender.id;
