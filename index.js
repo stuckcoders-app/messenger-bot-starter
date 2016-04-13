@@ -3,6 +3,7 @@ var app = express();
 var cons = require("consolidate");
 var bodyParser = require("body-parser");
 var request = require('request');
+var chalk = require('chalk');
 
 var port = process.env.PORT || 3000;
 var access_token = process.env.ACCESS_TOKEN;
@@ -16,7 +17,8 @@ app.engine('html', cons.swig);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
-function send(message) {
+function send(sender, message) {
+	console.log(chalk.red(message));
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: { 
@@ -24,7 +26,9 @@ function send(message) {
 		},
 		method: 'POST',
 		json: {
-			recipient: {id:sender},
+			recipient: {
+				id:sender
+			},
 			message: message,
 		}
 	}, function(error, response, body) {
@@ -38,7 +42,7 @@ function send(message) {
 
 function sendMessage(sender, messageData) {
 	for (var i in messageData) {
-		send(messageData[i]);
+		send(sender, messageData[i]);
 	}
 };
 
