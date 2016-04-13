@@ -10,6 +10,10 @@ app.get('/', function(req, res) {
      res.send('Hello World!');
 });
 
+app.get('/privacy-policy', function(req, res) {
+     res.render('privacy');
+});
+
 app.get('/webhook', function (req, res) {
   if (req.query['hub.verify_token'] === access_token) {
     res.send(req.query['hub.challenge']);
