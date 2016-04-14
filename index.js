@@ -51,32 +51,32 @@ app.get('/webhook/', function (req, res) {
 });
 
 app.post('/webhook/', function (req, res) {
-  messaging_events = req.body.entry[0].messaging;
-  console.log(req.body.entry);
-  for (i = 0; i < messaging_events.length; i++) {
-    event = req.body.entry[0].messaging[i];
-    sender = event.sender.id;
-    if (event.message && event.message.text) {
-      var text = event.message.text;
-	  var response = {
-				text: "This you say" + text
-			};
-      // Handle a text message from this sender
-	  sendMessage(sender, response);
-	  
-	}
-	else if (event.postback) {
-		var postback_text = event.postback.payload;
-		if (postback_text == "USER_REQUEST_SHIPPING_PRICE") {
-			var message = {
-				text: "Am on it...What state are you shipping from?"
-			};
-			sendMessage(sender, message);
-			continue;
+  
+	messaging_events = req.body.entry[0].messaging;
+	for (i = 0; i < messaging_events.length; i++) {
+		event = req.body.entry[0].messaging[i];
+		sender = event.sender.id;
+		if (event.message && event.message.text) {
+			var text = event.message.text;
+			var response = {
+					text: "This you say" + text
+				};
+			// Handle a text message from this sender
+			sendMessage(sender, response);
+			
 		}
+		else if (event.postback) {
+			var postback_text = event.postback.payload;
+			if (postback_text == "USER_REQUEST_SHIPPING_PRICE") {
+				var message = {
+					text: "Am on it...What state are you shipping from?"
+				};
+				sendMessage(sender, message);
+				continue;
+			}
+		}
+		res.sendStatus(200);
 	}
-	res.sendStatus(200);
-  }
 });
 
 app.listen(app.get('port'), function() {
