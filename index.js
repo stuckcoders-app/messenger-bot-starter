@@ -64,7 +64,8 @@ app.post('/webhook/', function (req, res) {
       // Handle a text message from this sender
 	  sendMessage(sender, response);
 	  
-    }else if (event.postback) {
+	}
+	else if (event.postback) {
 		var postback_text = event.postback.payload;
 		if (postback_text == "USER_REQUEST_SHIPPING_PRICE") {
 			var message = {
