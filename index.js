@@ -5,8 +5,6 @@ var cons = require('consolidate');
 var app = express();
 var page_token = process.env.PAGE_TOKEN;
 
-
-// instruct the app to use the `bodyParser()` middleware for all routes
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
