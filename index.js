@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
-var con = require('consolidate');
+var cons = require('consolidate');
 var app = express();
 var page_token = process.env.PAGE_TOKEN;
 
