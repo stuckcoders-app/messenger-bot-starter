@@ -66,12 +66,11 @@ app.post('/webhook/', function (req, res) {
     event = req.body.entry[0].messaging[i];
     sender = event.sender.id;
     if (event.message && event.message.text) {
-      text = event.message.text;
+      var text = event.message.text;
       // Handle a text message from this sender
-	  
+	  sendMessage(sender, "This you say " + text, page_token);
     }
-	
-	if (event.postback) {
+	else if (event.postback) {
 		var postback_text = event.postback.payload;
 		if (postback_text == "USER_REQUEST_SHIPPING_PRICE") {
 			var messages = {
