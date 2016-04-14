@@ -59,7 +59,7 @@ app.post('/webhook', function (req, res) {
 		if (event.message && event.message.text) {
 			var text = event.message.text;
 			var response = {
-					text: "This you say" + text
+					text: "Did you just say " + text
 				};
 			// Handle a text message from this sender
 			sendMessage(sender, response);
